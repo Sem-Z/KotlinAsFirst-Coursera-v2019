@@ -3,6 +3,8 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import lesson4.task1.abs
+import kotlin.math.abs
 
 /**
  * Пример
@@ -18,7 +20,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean = number / 1000 % 10 + number / 100 % 10 == number / 10 % 10 + number % 10
 
 /**
  * Простая
@@ -27,7 +29,8 @@ fun isNumberHappy(number: Int): Boolean = TODO()
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+    x1 == x2 || y1 == y2 || abs(x2 - x1) == abs(y2 - y1)
 
 
 /**
@@ -36,7 +39,16 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int = TODO()
+
+fun daysInMonth(month: Int, year: Int): Int = when (month) {
+    4, 6, 9, 11 -> 30
+    2 -> when {
+        year % 4 != 0 -> 28
+        year % 100 == 0 -> if (year % 400 == 0) 29 else 28
+        else -> 29
+    }
+    else -> 31
+}
 
 /**
  * Средняя
