@@ -137,8 +137,17 @@ class Tests {
         assertFalse(isCoPrime(6, 8))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
+        assertTrue(isCoPrime(183, 1507))
+        assertFalse(isCoPrime(150854, 1328))
         assertTrue(isCoPrime(1234567890, 908765431))
         assertTrue(isCoPrime(2109876543, 1234567891))
+        var count = 0
+        for (n in 1 until 5761) {
+            if (isCoPrime(n, 5761)) {
+                count++
+            }
+        }
+        assertEquals(4932, count)
     }
 
     @Test
@@ -161,6 +170,7 @@ class Tests {
         assertEquals(1, collatzSteps(2))
         assertEquals(7, collatzSteps(3))
         assertEquals(5, collatzSteps(5))
+        assertEquals(3, collatzSteps(8))
         assertEquals(6, collatzSteps(10))
         assertEquals(7, collatzSteps(20))
         assertEquals(6, collatzSteps(64))
@@ -245,5 +255,6 @@ class Tests {
         assertEquals(2, fibSequenceDigit(9))
         assertEquals(5, fibSequenceDigit(14))
         assertEquals(2, fibSequenceDigit(20))
+        assertEquals(1, fibSequenceDigit(43))
     }
 }
