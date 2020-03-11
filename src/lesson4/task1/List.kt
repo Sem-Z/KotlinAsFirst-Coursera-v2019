@@ -3,7 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Пример
@@ -226,7 +226,12 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val listOfAllDigits = ('0'..'9').toList() + ('a'..'z').toList()
+    return str.reversed().foldIndexed(
+        0,
+        { index, acc, current: Char -> acc + listOfAllDigits.indexOf(current) * base.toDouble().pow(index).toInt() })
+}
 
 /**
  * Сложная
@@ -245,4 +250,76 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+
+// https://vremya-ne-zhdet.ru/vba-excel/summa-propisyu-kod/
+
+fun russian(n: Int): String {
+    val y = mutableListOf<Int>()
+    var x = n
+    for (i1 in 1..4) {
+        y.add(x % 1000)
+        x /= 1000
+    }
+    var text1: String
+    var text2: String
+    var text3: String
+    var text4: String
+    val text = mutableListOf<String>()
+    for (i2 in 0..3) {
+        val y1 = y[i2] % 10
+        val y2 = (y[i2] - y1) / 10 % 10
+        val y3 = y[i2] / 100
+        text1 = listOf(
+            "",
+            "сто ",
+            "двести ",
+            "триста ",
+            "четыреста ",
+            "пятьсот ",
+            "шестьсот ",
+            "семьсот ",
+            "восемьсот ",
+            "девятьсот "
+        )[y3]
+        text2 = listOf(
+            "",
+            "",
+            "двадцать ",
+            "тридцать ",
+            "сорок ",
+            "пятьдесят ",
+            "шестьдесят ",
+            "семьдесят ",
+            "восемьдесят ",
+            "девяносто "
+        )[y2]
+        if (y2 == 1) {
+            text3 = listOf(
+                "десять ", "одиннадцать ", "двенадцать ",
+                "тринадцать ", "четырнадцать ", "пятнадцать ", "шестнадцать ",
+                "семнадцать ", "восемнадцать ", "девятнадцать "
+            )[y1]
+        } else if (y2 != 1 && i2 == 1) {
+            text3 = listOf(
+                "", "одна ", "две ", "три ", "четыре ", "пять ",
+                "шесть ", "семь ", "восемь ", "девять "
+            )[y1]
+        } else {
+            text3 = listOf(
+                "", "один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять "
+            )[y1]
+        }
+
+        text4 = when {
+            y2 != 1 && y1 == 1 -> listOf("", "тысяча ", "миллион ", "миллиард ")[i2]
+            y2 != 1 && y1 > 1 && y1 < 5 -> listOf("", "тысячи ", "миллиона ", "миллиарда ")[i2]
+            y1 == 0 && y2 == 0 && y3 == 0 -> ""
+            else -> listOf("", "тысяч ", "миллионов ", "миллиардов ")[i2]
+        }
+        text.add(0, text1 + text2 + text3 + text4)
+    }
+    return if (y[0] + y[1] + y[2] + y[3] == 0)
+        "ноль"
+    else
+        text.joinToString(separator = "").trim()
+}
